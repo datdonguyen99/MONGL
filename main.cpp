@@ -90,6 +90,8 @@ int main(int argc, const char *argv[]) {
   // const char *filename =
   // "/Users/nhannguyen/Downloads/assignment1/testcase.txt";
   const char *filename = "testcase.txt";
+  // const char *filename = "hoanh.txt";
+  // const char *filename = "mau.txt";
 
   int NID = -1, N1 = -1, N5 = -1, k = -1;
   string *ID = nullptr;
