@@ -22,168 +22,21 @@ int calculateNoOfWaitingDays(const string input7Str,
 /// STUDENT'S ANSWER HERE
 ////////////////////////////////////////////////////////////////////////////
 
-/*char decodeToChar(string ip1) {
-  string s0 = "EFGHIJK";
-  string s1 = "LMNOPQR";
-  string s2 = "#TUVWXY";
-  string s3 = "@ASZBCD";
-  if (ip1[0] == '0') {
-    return s0[ip1.size() % 7 - 1];
-  } else if (ip1[0] == '1') {
-    return s1[ip1.size() % 7 - 1];
-  } else if (ip1[0] == '2') {
-    return s2[ip1.size() % 7 - 1];
-  } else if (ip1[0] == '3') {
-    return s3[ip1.size() % 7 - 1];
-  }
-}
-
-int bcdToDecimal(string ip1) {
-  int len = ip1.length(), check = 0, check0 = 0;
-  int num = 0, sum = 0, mul = 1, rev = 0;
-
-  for (int i = len - 1; i >= 0; i--) {
-    sum += (ip1[i] - '0') * mul;
-    mul *= 2;
-    check++;
-    if (check == 4 || i == 0) {
-      if (sum == 0 && check0 == 0) {
-        num = 1;
-        check0 = 1;
-      } else {
-        // update the answer
-        num = num * 10 + sum;
-      }
-      check = 0;
-      sum = 0;
-      mul = 1;
-    }
-  }
-  // Reverse the number formed.
-  while (num > 0) {
-    rev = rev * 10 + (num % 10);
-    num /= 10;
-  }
-
-  if (check0 == 1) {
-    return rev - 1;
-  }
-  return rev;
-}
-
-string decodeStr(string ip1) {
-  string rong = " ";
-  string temps;
-  int current;
-  int next = -1;
-  int temp;
-  do {
-    current = next + 1;
-    next = ip1.find_first_of(rong, current);
-    temp = bcdToDecimal(ip1.substr(current, next - current));
-    temps = temps + decodeToChar(to_string(temp));
-
-  } while (next != string::npos);
-  return temps;
-}
-
-int checkVua(string ID) {
-  int found1 = ID.find("VUA");
-  string t2 = ID.substr(1, ID.size() - 2);
-  int found2 = t2.find("THD");
-  if (found1 == 0) {
-    return 1;
-  } else if (found2 != std::string::npos) {
-    return 2;
-  } else {
-    return 0;
-  }
-}
-
-string bubbleSrt(string str2) {
-  string str = str2;
-  size_t n = str.size();
-  size_t i, j;
-  for (i = 0; i < n - 1; i++)
-    for (j = 0; j < n - i - 1; j++)
-      if (str[j] > str[j + 1]) {
-        char temp = str[j + 1];
-        str[j + 1] = str[j];
-        str[j] = temp;
-      }
-  return str;
-}
-
-string vuaDecode(string ip1, int id) {
-  if (id == 1) {
-    if (ip1.size() <= 2) {
-      return ip1;
-    } else {
-      string rev = string(ip1.rbegin(), ip1.rend()); // reverse string
-      string res;
-      for (int i = 0; i < rev.size(); i++) {
-        if (rev[i] > ip1[i])
-          res = res + rev[i];
-        else
-          res = res + ip1[i];
-      }
-      return res;
-    }
-  } else if (id == 2) {
-    for (size_t i = 0; i < ip1.length(); i++) {
-      if (i % 3 == 0) {
-        ip1 += ip1[i];
+string bubbleSort(string &str2) {
+  for (int i = 0; i < str2.length() - 1; i++) {
+    for (int j = 0; j < str2.length() - i - 1; j++) {
+      if ((int)str2[j] > (int)str2[j + 1]) {
+        char temp = str2[j + 1];
+        str2[j + 1] = str2[j];
+        str2[j] = temp;
       }
     }
-    return bubbleSrt(ip1);
-  } else {
-    return ip1;
   }
 }
 
-string decodeStr1(string s, int id) {
-  if (s[0] == '#') {
-    char temp = s[s.size() - 1];
-    s.erase(0, 1);
-
-    if (temp == 'Z') {
-      string tt = s + 'A';
-      return vuaDecode(tt, id);
-    } else
-      return vuaDecode(s + (++temp), id);
-  } else if (s[0] == '@') {
-    s.erase(0, 1);
-    string rev = string(s.rbegin(), s.rend()); // reverse string
-    return vuaDecode(rev, id);
-  } else {
-    return vuaDecode(s, id);
-  }
-  /// e-learning.hcmut.edu.vn/mod/forum/discuss.php?d=134037
-}
-// const string ip2[] = {"EFGHIJK", "LMNOPQR", "#TUVWXY", "@ASZBCD"};
-// string retu = "";*/
 string readyForBattle(const string ID[], const int NID, const string input1[],
                       const int N1) {
   // return "You can remove this return";
-  // vector<int> decodeStep1;
-  // vector<char> decodeStep2;
-  /*string ip1;
-  string temp = "";
-  string temp1 = "";
-  int id = 0;
-  for (int i = 0; i < NID; i++) {
-    if (checkVua(ID[i]) > id) {
-      id = checkVua(ID[i]);
-    }
-  }
-  for (int i = 0; i < N1; i++) {
-    ip1 = input1[i];
-    temp = decodeStr(ip1);
-    temp1 = temp1 + " " + decodeStr1(temp, id);
-  }
-  temp1.erase(0, 1);
-  return temp1;*/
-
   /*////// BEGIN DECODE TO DECIMAL ///////*/
   string ip1 = "";
   bool check = false;
@@ -216,7 +69,6 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
   }
   /*////// END DECODE TO DECIMAL ///////*/
 
-  cout << ip1 << "dat" << endl;
   /*////// BEGIN DECODE TO ALPHABET ///////*/
   int pos = 0;
   int posTem = 0;
@@ -244,7 +96,7 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
       if (cnt > 7) {
         cnt = cnt % 7;
       }
-      cout << cntStep << " ";
+      // cout << cntStep << " ";
       if (cnt == 1) {
         if (row[i] == '0') {
           strDecode2 += 'E';
@@ -332,7 +184,8 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
   }
   /*////// END DECODE TO ALPHABET ///////*/
 
-  cout << '\n' << decode2 << "|" << endl;
+  // cout << '\n' << decode2 << "|" << endl;
+  /*////// BEGIN DECODE # and @ ///////*/
 
   for (int i = 0; i < decode2.length(); i++) {
     if (decode2[i] == '#') {
@@ -375,52 +228,103 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
       decode2 += temptPostReverse;
     }
   }
-  cout << decode2 << "|";
-  /*while (!ip1.empty()) {
-    string temp = ip1.substr(0, ip1.find(" "));
-    cout << temp;
-    if (ip1.find(" ") > ip1.size()) {
-      break;
-    } else {
-      ip1.erase(0, ip1.find(" ") + 1);
-    }
-  }*/
 
-  /*
-    string retu = "";
-    for (int i = 0; i < N1; i++) {
-      string temp = input1[i];
-      for (int j = 0; j < 7; j++) {
-      }
+  for (int i = 0; i < decode2.length(); i++) {
+    if (decode2[i] == '@' || decode2[i] == '#') {
+      decode2.erase(i, 1);
     }
+  }
+  // cout << "decode2:" << decode2 << "|" << endl;
+  /*////// END DECODE # and @ ///////*/
 
-    for (int i = 0; i < decodeStep1.length(); i++) {
-      int row = (int)decodeStep1[0];
-      for (int j = 0; j < decodeStep1.length(); j++) {
-        if (decodeStep1[i] != ' ') {
-          counter++;
+  /*////// BEGIN CHECK VUA and THD ///////*/
+  bool checkVUA = false;
+  bool checkTHD = false;
+
+  for (int i = 0; i < NID; i++) {
+    string tem = "";
+    for (int j = 0; j < ID[i].length(); j++) {
+      tem = ID[i];
+    }
+    int fVUA = tem.find("VUA");
+    int fTHD = tem.find("THD");
+    if (fVUA == 0) {
+      checkVUA = true;
+    }
+    if (fTHD != 0 && fTHD != -1 && (fTHD + 2) != tem.length() - 1) {
+      checkTHD = true;
+    }
+  }
+  // cout << '\n' << checkTHD << endl;
+  /*////// END CHECK VUA and THD ///////*/
+
+  /*////// BEGIN DECODE VUA and THD ///////*/
+  string decode3 = "";
+  if (checkVUA) {
+    string temVua = "";
+    for (int i = 0; i < decode2.length(); i++) {
+      if (decode2[i] == ' ' || i == decode2.length() - 1) {
+        if (i == decode2.length() - 1) {
+          temVua += decode2[decode2.length() - 1];
         }
+        if (temVua.length() > 2) {
+          if (temVua.length() % 2 == 0) {
+            for (int idxCut = temVua.length() - 2; idxCut >= 0; idxCut -= 2) {
+              decode3 += temVua.substr(idxCut, 2);
+            }
+          } else {
+            for (int j = temVua.length() - 1; j >= 0; j--) {
+              decode3 += temVua[j];
+            }
+          }
+        } else {
+          decode3 += temVua;
+        }
+        if (i != decode2.length() - 1) {
+          decode3 += ' ';
+        }
+        temVua = "";
+      } else {
+        temVua += decode2[i];
       }
-      char temp = ip1[row][(counter - 1) % 7];
-    }*/
-
-  /*string *ip1 = new string[N1];
-  for(int i = 0; i < decodeStep1.size();i++){
-    ip[i] = decodeStep1[i];
-    if(decodeStep1[i] == 4){
-      ip1[i] = ' ';
     }
-    if(decodeStep1[i] == 5){
-
+    // cout << "dicode3:" << decode3 << "|" << endl;
+    for (int j = 0; j < decode2.length(); j++) {
+      if ((int)decode3[j] < (int)decode2[j]) {
+        decode3[j] = decode2[j];
+      }
     }
-  }*/
-  /*
-  ** AFTER DECODE STEP1, 0,1,2,3 was stored in decodeStep1
-  ** and 4 is space between string
-  ** and 5 is signal end 1 line
-  */
-  cout << endl;
-  return "You can remove this return";
+  } else if (checkTHD) {
+    string temTHD = "";
+    for (int i = 0; i < decode2.length(); i++) {
+      if (decode2[i] == ' ' || decode2.length() - 1 == i) {
+        if (decode2.length() - 1 == i) {
+          temTHD += decode2[decode2.length() - 1];
+        }
+        int cntEra = 0;
+        for (int j = 0; j <= temTHD.length(); j += 3) {
+          temTHD.erase(j - cntEra, 1);
+          cntEra += 1;
+        }
+        bubbleSort(temTHD);
+        decode3 += temTHD;
+        if (decode2.length() - 1 != i) {
+          decode3 += " ";
+        }
+        temTHD = "";
+      }
+      if (decode2[i] != ' ') {
+        temTHD += decode2[i];
+      }
+    }
+
+  } else {
+    decode3 += decode2;
+  }
+  // cout << "decode3:" << decode3 << "|" << endl;
+  /*////// END DECODE VUA and THD ///////*/
+  // cout << endl;
+  return decode3;
 }
 
 int decode(const string A, const string B) {
@@ -429,15 +333,15 @@ int decode(const string A, const string B) {
   copy(A.begin(), A.end(), str);
   char *substr = new char[B.size() + 1];
   copy(B.begin(), B.end(), substr);
-
   bool check = false;
   int count = 0;
 
   for (int i = 0; i < A.length(); i++) {
     if (str[i] == substr[0]) {
+
       check = true;
       for (int j = 0; j < B.length(); j++) {
-        if (substr[j] != substr[i + j]) {
+        if (substr[j] == substr[i + j]) {
           check = false;
           break;
         }

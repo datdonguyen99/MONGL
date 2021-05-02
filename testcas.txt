@@ -1,10 +1,7 @@
-6
-VUA123sdf
-abcTHD
-athdbc
-12rffvuatsfthdp
-THDabc
-123THD
+3
+VUA123
+abcdef
+12rff
 2
 10 1111 1010
 11 01 1010

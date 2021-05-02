@@ -87,11 +87,7 @@ int readFile(const char *filename, int &NID, int &N1, int &N5, int &k,
 
 int main(int argc, const char *argv[]) {
   // Breakpoint
-  // const char *filename =
-  // "/Users/nhannguyen/Downloads/assignment1/testcase.txt";
-  const char *filename = "testcase.txt";
-  // const char *filename = "hoanh.txt";
-  // const char *filename = "mau.txt";
+  const char *filename = "testcas.txt";
 
   int NID = -1, N1 = -1, N5 = -1, k = -1;
   string *ID = nullptr;
