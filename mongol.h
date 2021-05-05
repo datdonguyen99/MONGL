@@ -14,8 +14,8 @@ string findRoute(const string input3);
 string decodeVfunction(const string A, const string B);
 string findBetrayals(const string input5[], const int N5);
 int attack(const string input6[]);
-/*int calculateNoOfWaitingDays(const string input7Str,
-                             const string input7Matrix[], const int k);*/
+int calculateNoOfWaitingDays(const string input7Str,
+                             const string input7Matrix[], const int k);
 
 ////////////////////////////////////////////////////////////////////////////
 /// STUDENT'S ANSWER HERE
@@ -544,9 +544,6 @@ string findBetrayals(const string input5[], const int N5) {
     b += alphabet[alphabet.size() - 2];
     c += alphabet[alphabet.size() - 3];
   }
-  // cout << "dit me:" << a << b << c;
-  // string results = a + b + c;
-  // cout << a + b + c;
   return (a + b + c);
 }
 
@@ -593,7 +590,24 @@ int attack(const string input6[]) {
   }
   return -1;
 }
-/*
+
+void tich(vector<vector<int>> &A, vector<vector<int>> &B, int N7) {
+  vector<vector<int>> C;
+  int i, j, k;
+  for (i = 0; i < N7; i++) {
+    vector<int> temp1;
+    for (j = 0; j < N7; j++) {
+      int temp = 0;
+      for (k = 0; k < N7; k++) {
+        temp += A[i][k] * B[k][j];
+      }
+      temp1.push_back(temp);
+    }
+    C.push_back(temp1);
+  }
+  A = C;
+}
+
 int calculateNoOfWaitingDays(const string input7Str,
                              const string input7Matrix[], const int k) {
   // string space = " ";
@@ -607,23 +621,40 @@ int calculateNoOfWaitingDays(const string input7Str,
       Str.erase(0, Str.find(" ") + 1);
     }
   }
-  // int N7 = stoi(vecStr7[0]); // N7 elems
-  // int V = stoi(vecStr7[1]);
+  int N7 = stoi(vecStr7[0]); // N7 elems
+  int V = stoi(vecStr7[1]);
   int i = stoi(vecStr7[2]); // row
   int j = stoi(vecStr7[3]); // colum
 
+  vector<vector<vector<int>>> Vec;
+  string inputRow = "";
+  string ele = "";
+
   for (int r = 0; r < k; r++) {
-    for (size_t c = 0; c < input7Matrix[r].length(); c++) {
-      if (input7Matrix[r][c] != ' ') {
-        for (int m = 0; m < i; m++) {
-          for (int n = 0; n < j; n++) {
-            // arr[m][n] = input7Matrix[r];
-          }
-        }
+    inputRow = input7Matrix[r];
+    vector<vector<int>> temp1;
+    for (int i = 0; i < N7; i++) {
+      vector<int> temp2;
+      for (int j = 0; j < N7; j++) {
+        ele = inputRow.substr(0, inputRow.find(" "));
+        temp2.push_back(stoi(ele));
+        inputRow.erase(0, ele.length() + 1);
       }
+      temp1.push_back(temp2);
     }
+    Vec.push_back(temp1);
   }
-  return j;
+
+  vector<vector<int>> temp = Vec[0];
+  for (int i = 1; i < (int)Vec.size(); i++) {
+    tich(temp, Vec[i], N7);
+  }
+  int ret = temp[i][j];
+  int rel = ret % V;
+  if (rel < 0) {
+    rel = rel - rel * 2;
+  }
+  return rel;
 }
-*/
+
 #endif /* MONGOL_H */
