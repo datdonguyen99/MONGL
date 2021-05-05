@@ -7,7 +7,6 @@
 // The library here is concretely set, students are not allowed to include any
 // other libraries.
 
-#include <string>
 string readyForBattle(const string ID[], const int NID, const string input1[],
                       const int N1);
 int decode(const string A, const string B);
@@ -15,24 +14,12 @@ string findRoute(const string input3);
 string decodeVfunction(const string A, const string B);
 string findBetrayals(const string input5[], const int N5);
 int attack(const string input6[]);
-int calculateNoOfWaitingDays(const string input7Str,
-                             const string input7Matrix[], const int k);
+/*int calculateNoOfWaitingDays(const string input7Str,
+                             const string input7Matrix[], const int k);*/
 
 ////////////////////////////////////////////////////////////////////////////
 /// STUDENT'S ANSWER HERE
 ////////////////////////////////////////////////////////////////////////////
-
-string bubbleSort(string &str2) {
-  for (int i = 0; i < str2.length() - 1; i++) {
-    for (int j = 0; j < str2.length() - i - 1; j++) {
-      if ((int)str2[j] > (int)str2[j + 1]) {
-        char temp = str2[j + 1];
-        str2[j + 1] = str2[j];
-        str2[j] = temp;
-      }
-    }
-  }
-}
 
 string readyForBattle(const string ID[], const int NID, const string input1[],
                       const int N1) {
@@ -41,7 +28,7 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
   string ip1 = "";
   bool check = false;
   for (int i = 0; i < N1; i++) {
-    for (int j = 0; j < input1[i].length(); check ? (j += 1) : (j += 2)) {
+    for (size_t j = 0; j < input1[i].length(); check ? (j += 1) : (j += 2)) {
       if (input1[i][j] == ' ') {
         check = true;
         ip1 += ' ';
@@ -49,16 +36,12 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
         check = false;
         if (input1[i][j] == 48 && input1[i][j + 1] == 48) {
           ip1 += '0';
-          // cout << "k";
         } else if (input1[i][j] == 48 && input1[i][j + 1] == 49) {
           ip1 += '1';
-          // cout << "m";
         } else if (input1[i][j] == 49 && input1[i][j + 1] == 48) {
           ip1 += '2';
-          // cout << "h";
         } else if (input1[i][j] == 49 && input1[i][j + 1] == 49) {
           ip1 += '3';
-          // cout << "b";
         }
       }
     }
@@ -70,7 +53,7 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
   /*////// END DECODE TO DECIMAL ///////*/
 
   /*////// BEGIN DECODE TO ALPHABET ///////*/
-  int pos = 0;
+  size_t pos = 0;
   int posTem = 0;
   string space = " ";
   string row;
@@ -82,11 +65,10 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
     row = ip1.substr(posTem, pos - posTem);
     string strDecode2 = "";
     int cntStep = 0;
-    for (int i = 0; i < row.length(); i += cntStep) {
+    for (size_t i = 0; i < row.length(); i += cntStep) {
       temp = row[i];
       int cnt = 0;
-
-      for (int j = i; j < row.length(); j++) {
+      for (size_t j = i; j < row.length(); j++) {
         if (temp != row[j]) {
           break;
         }
@@ -95,8 +77,10 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
       cntStep = cnt;
       if (cnt > 7) {
         cnt = cnt % 7;
+        if (cnt == 0) {
+          cnt = 7;
+        }
       }
-      // cout << cntStep << " ";
       if (cnt == 1) {
         if (row[i] == '0') {
           strDecode2 += 'E';
@@ -168,13 +152,8 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
           strDecode2 += 'D';
         }
       }
-      // cout << temp << " ";
     }
     decode2 += strDecode2;
-    // decode2 += " ";
-    // cout << cnt << endl;
-    // cout << temp << " ";
-    // cout << pos << " ";
     if (ip1[pos + 1] == '!') {
       decode2 += ' ';
     }
@@ -184,19 +163,18 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
   }
   /*////// END DECODE TO ALPHABET ///////*/
 
-  // cout << '\n' << decode2 << "|" << endl;
   /*////// BEGIN DECODE # and @ ///////*/
 
-  for (int i = 0; i < decode2.length(); i++) {
+  for (size_t i = 0; i < decode2.length(); i++) {
     if (decode2[i] == '#') {
-      for (int j = i + 1; j < decode2.length(); j++) {
+      for (size_t j = i + 1; j < decode2.length(); j++) {
         if (decode2[j] == '#' || decode2[j] == '@' || decode2[j] == ' ' ||
             j == decode2.length() - 1) {
-          if (j == decode2.length() - 1) {
+          if (j == decode2.length() - 1 && decode2[j] != '#' &&
+              decode2[j] != '@') {
             j += 1;
           }
           char prior = (int)decode2[j - 1];
-          // cout << "prior: " << (int)prior << endl;
           if ((int)prior > 64 && (int)prior < 91) {
             if ((int)prior == 90) {
               prior = 65;
@@ -213,7 +191,7 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
       }
     } else if (decode2[i] == '@') {
       string temptReverse = "";
-      int j = 0;
+      size_t j = 0;
       for (j = i + 1; j < decode2.length(); j++) {
         if (decode2[j] == '#' || decode2[j] == '@' || decode2[j] == ' ') {
           break;
@@ -229,12 +207,11 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
     }
   }
 
-  for (int i = 0; i < decode2.length(); i++) {
+  for (size_t i = 0; i < decode2.length(); i++) {
     if (decode2[i] == '@' || decode2[i] == '#') {
       decode2.erase(i, 1);
     }
   }
-  // cout << "decode2:" << decode2 << "|" << endl;
   /*////// END DECODE # and @ ///////*/
 
   /*////// BEGIN CHECK VUA and THD ///////*/
@@ -243,7 +220,7 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
 
   for (int i = 0; i < NID; i++) {
     string tem = "";
-    for (int j = 0; j < ID[i].length(); j++) {
+    for (size_t j = 0; j < ID[i].length(); j++) {
       tem = ID[i];
     }
     int fVUA = tem.find("VUA");
@@ -251,21 +228,25 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
     if (fVUA == 0) {
       checkVUA = true;
     }
-    if (fTHD != 0 && fTHD != -1 && (fTHD + 2) != tem.length() - 1) {
+    if (fTHD != 0 && fTHD != -1 && (fTHD + 2) != (int)tem.length() - 1) {
       checkTHD = true;
     }
   }
-  // cout << '\n' << checkTHD << endl;
   /*////// END CHECK VUA and THD ///////*/
 
   /*////// BEGIN DECODE VUA and THD ///////*/
   string decode3 = "";
   if (checkVUA) {
     string temVua = "";
-    for (int i = 0; i < decode2.length(); i++) {
+    for (size_t i = 0; i < decode2.length(); i++) {
       if (decode2[i] == ' ' || i == decode2.length() - 1) {
+        bool checkSpeVua = false;
         if (i == decode2.length() - 1) {
-          temVua += decode2[decode2.length() - 1];
+          if (decode2[i] != ' ') {
+            temVua += decode2[decode2.length() - 1];
+          } else {
+            checkSpeVua = true;
+          }
         }
         if (temVua.length() > 2) {
           if (temVua.length() % 2 == 0) {
@@ -280,7 +261,7 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
         } else {
           decode3 += temVua;
         }
-        if (i != decode2.length() - 1) {
+        if (i != decode2.length() - 1 || checkSpeVua) {
           decode3 += ' ';
         }
         temVua = "";
@@ -288,84 +269,78 @@ string readyForBattle(const string ID[], const int NID, const string input1[],
         temVua += decode2[i];
       }
     }
-    // cout << "dicode3:" << decode3 << "|" << endl;
-    for (int j = 0; j < decode2.length(); j++) {
+    for (size_t j = 0; j < decode2.length(); j++) {
       if ((int)decode3[j] < (int)decode2[j]) {
         decode3[j] = decode2[j];
       }
     }
   } else if (checkTHD) {
     string temTHD = "";
-    for (int i = 0; i < decode2.length(); i++) {
+    for (size_t i = 0; i < decode2.length(); i++) {
+      bool checkLast = false;
       if (decode2[i] == ' ' || decode2.length() - 1 == i) {
-        if (decode2.length() - 1 == i) {
-          temTHD += decode2[decode2.length() - 1];
+        bool checkSpe = false;
+        if (temTHD != "") {
+          if (decode2.length() - 1 == i) {
+            if (decode2[i] != ' ') {
+              temTHD += decode2[decode2.length() - 1];
+            } else {
+              checkSpe = true;
+            }
+          }
+          int cntEra = 0;
+
+          for (size_t j = 0; j <= temTHD.length(); j += 3) {
+            if (temTHD.length() == 1) {
+              checkLast = true;
+            } else {
+              temTHD.erase(j - cntEra, 1);
+              cntEra += 1;
+            }
+          }
+
+          for (size_t i = 0; i < temTHD.length() - 1; i++) {
+            for (size_t j = 0; j < temTHD.length() - i - 1; j++) {
+              if ((int)temTHD[j] > (int)temTHD[j + 1]) {
+                char temp = temTHD[j + 1];
+                temTHD[j + 1] = temTHD[j];
+                temTHD[j] = temp;
+              }
+            }
+          }
+
+          if (!checkLast) {
+            decode3 += temTHD;
+          }
+          temTHD = "";
         }
-        int cntEra = 0;
-        for (int j = 0; j <= temTHD.length(); j += 3) {
-          temTHD.erase(j - cntEra, 1);
-          cntEra += 1;
-        }
-        bubbleSort(temTHD);
-        decode3 += temTHD;
-        if (decode2.length() - 1 != i) {
+        if (decode2.length() - 1 != i || checkSpe) {
           decode3 += " ";
         }
-        temTHD = "";
       }
       if (decode2[i] != ' ') {
         temTHD += decode2[i];
       }
     }
-
   } else {
     decode3 += decode2;
   }
-  // cout << "decode3:" << decode3 << "|" << endl;
   /*////// END DECODE VUA and THD ///////*/
-  // cout << endl;
   return decode3;
 }
 
 int decode(const string A, const string B) {
   // return -1;
-  char *str = new char[A.size() + 1];
-  copy(A.begin(), A.end(), str);
-  char *substr = new char[B.size() + 1];
-  copy(B.begin(), B.end(), substr);
-  bool check = false;
-  int count = 0;
+  string strB = B;
+  string strDataA = A;
+  size_t pos = 0;
+  int cnt = 0;
 
-  for (int i = 0; i < A.length(); i++) {
-    if (str[i] == substr[0]) {
-
-      check = true;
-      for (int j = 0; j < B.length(); j++) {
-        if (substr[j] == substr[i + j]) {
-          check = false;
-          break;
-        }
-      }
-      if (check == true) {
-        count++;
-      }
-    }
+  while ((pos = strDataA.find(strB, pos)) < strDataA.length()) {
+    pos += strB.length();
+    cnt++;
   }
-  delete[] str;
-  delete[] substr;
-  return count;
-}
-
-void shiftLeft(string &A, int &numShift) {
-  string temp = A.substr(0, numShift);
-  A.erase(0, numShift);
-  A = A + temp;
-}
-void shiftRight(string &A, int &numShift) {
-  int numNoShift = A.length() - numShift;
-  string temp = A.substr(numNoShift, numShift);
-  A.erase(numNoShift, numShift);
-  A = temp + A;
+  return cnt;
 }
 
 string findRoute(const string input3) {
@@ -399,7 +374,10 @@ string findRoute(const string input3) {
     }
 
     if (numB != 0) {
-      shiftLeft(SS, numB);
+      // shiftLeft(SS, numB);
+      string temp = SS.substr(0, numB);
+      SS.erase(0, numB);
+      SS = SS + temp;
     }
   } else if (atoi(pB) > 0) { //////////////////////////
     int numB = atoi(pB);
@@ -408,11 +386,15 @@ string findRoute(const string input3) {
       numB = numB % lenS;
     }
     if (numB != 0) {
-      shiftRight(SS, numB);
+      // shiftRight(SS, numB);
+      int numNoShift = SS.length() - numB;
+      string temp = SS.substr(numNoShift, numB);
+      SS.erase(numNoShift, numB);
+      SS = temp + SS;
     }
   }
 
-  for (int m = 0; m < SS.length(); m++) {
+  for (size_t m = 0; m < SS.length(); m++) {
     int t = 0;
     int shift = atoi(pN) - 2 * m;
     if (shift < 0) {
@@ -442,7 +424,7 @@ string findRoute(const string input3) {
   // Trả về tọa độ(x,y)
   int x = 0;
   int y = 0;
-  for (int z = 0; z < SS.length(); z++) {
+  for (size_t z = 0; z < SS.length(); z++) {
     if (SS[z] == 'U') {
       y += 1;
     } else if (SS[z] == 'D') {
@@ -464,8 +446,8 @@ string decodeVfunction(const string A, const string B) {
   string str2 = "V";
   string strDataA = A;
   string strDataB = B;
-  int posA = 0;
-  int posB = 0;
+  size_t posA = 0;
+  size_t posB = 0;
   int cntA = 0;
   int cntB = 0;
 
@@ -488,8 +470,35 @@ string decodeVfunction(const string A, const string B) {
   return resul;
 }
 
-void insertionSort(vector<int> &point, vector<char> &alphabet) {
-  int i, key, j;
+string findBetrayals(const string input5[], const int N5) {
+  vector<char> alphabet;
+  vector<int> point;
+
+  for (int i = 65; i < 91; i++) {
+    // alphabet.push_back((char)i);
+    point.push_back(0);
+  }
+
+  for (int i = 0; i < N5; i++) {
+    for (int j = 0; j < 6; j++) {
+      bool check = false;
+      for (size_t k = 0; k < alphabet.size(); k++) {
+        if (input5[i][j] == alphabet[k]) {
+          // cout << to_string(alphabet[k]) << "|";
+          point[k] += 6 - j;
+          check = true;
+        }
+      }
+      if (check == false) {
+        alphabet.push_back(input5[i][j]);
+        point[alphabet.size() - 1] += 6 - j;
+      }
+    }
+  }
+
+  // insertionSort(point, alphabet);
+  size_t i;
+  int key, j;
   char key2;
 
   for (i = 1; i < alphabet.size(); i++) {
@@ -504,50 +513,19 @@ void insertionSort(vector<int> &point, vector<char> &alphabet) {
     point[j + 1] = key;
     alphabet[j + 1] = key2;
   }
-}
+  // for (vector<char>::iterator it1 = alphabet.begin(); it1 != alphabet.end();
+  //      it1++) {
+  //   cout << (*it1) << " ";
+  // }
+  // cout << endl;
+  // for (vector<int>::iterator it = point.begin(); it != point.end(); it++) {
+  //   cout << (*it) << " ";
+  // }
+  // cout << endl;
 
-string findBetrayals(const string input5[], const int N5) {
-  // return "You can remove this return";
-  vector<char> alphabet;
-  vector<int> point;
-
-  for (int i = 65; i < 91; i++) {
-    // alphabet.push_back((char)i);
-    point.push_back(0);
-  }
-
-  for (int i = 0; i < N5; i++) {
-    for (int j = 0; j < 6; j++) {
-      bool check = false;
-      for (int k = 0; k < alphabet.size(); k++) {
-        if (input5[i][j] == alphabet[k]) {
-          // cout << to_string(alphabet[k]) << "|";
-          point[k] += 6 - j;
-          check = true;
-        }
-      }
-      if (check == false) {
-        alphabet.push_back(input5[i][j]);
-        point[alphabet.size() - 1] += 6 - j;
-      }
-    }
-  }
-
-  insertionSort(point, alphabet);
-
-  /*for (vector<char>::iterator it1 = alphabet.begin(); it1 != alphabet.end();
-       it1++) {
-    cout << (*it1) << " ";
-  }
-  cout << endl;
-  for (vector<int>::iterator it = point.begin(); it != point.end(); it++) {
-    cout << (*it) << " ";
-  }
-  cout << endl;*/
-
-  for (int i = 0; i < point.size(); i++) {
+  for (size_t i = 0; i < point.size(); i++) {
     int pointPivot = point[i];
-    for (int j = 1; j < point.size(); j++) {
+    for (size_t j = 1; j < point.size(); j++) {
       if (pointPivot == point[j]) {
         if (alphabet[i] > alphabet[j]) {
           char temp = alphabet[i];
@@ -566,7 +544,10 @@ string findBetrayals(const string input5[], const int N5) {
     b += alphabet[alphabet.size() - 2];
     c += alphabet[alphabet.size() - 3];
   }
-  return a + b + c;
+  // cout << "dit me:" << a << b << c;
+  // string results = a + b + c;
+  // cout << a + b + c;
+  return (a + b + c);
 }
 
 int attack(const string input6[]) {
@@ -589,16 +570,60 @@ int attack(const string input6[]) {
     row.push_back(cntCivil);
   }
 
-  insertionSort(row, order);
+  // insertionSort(row, order);
+  size_t i;
+  int key, j;
+  char key2;
+
+  for (i = 1; i < order.size(); i++) {
+    key = row[i];
+    key2 = order[i];
+    j = i - 1;
+    while (j >= 0 && row[j] > key) {
+      row[j + 1] = row[j];
+      order[j + 1] = order[j];
+      j = j - 1;
+    }
+    row[j + 1] = key;
+    order[j + 1] = key2;
+  }
+
   if (row[row.size() - 1] > 0) {
     return order[order.size() - 1];
   }
   return -1;
 }
-
+/*
 int calculateNoOfWaitingDays(const string input7Str,
                              const string input7Matrix[], const int k) {
-  return -1;
-}
+  // string space = " ";
+  vector<string> vecStr7;
+  string Str = input7Str;
+  while (!Str.empty()) {
+    vecStr7.push_back(Str.substr(0, Str.find(" ")));
+    if (Str.find(" ") > Str.size()) {
+      break;
+    } else {
+      Str.erase(0, Str.find(" ") + 1);
+    }
+  }
+  // int N7 = stoi(vecStr7[0]); // N7 elems
+  // int V = stoi(vecStr7[1]);
+  int i = stoi(vecStr7[2]); // row
+  int j = stoi(vecStr7[3]); // colum
 
+  for (int r = 0; r < k; r++) {
+    for (size_t c = 0; c < input7Matrix[r].length(); c++) {
+      if (input7Matrix[r][c] != ' ') {
+        for (int m = 0; m < i; m++) {
+          for (int n = 0; n < j; n++) {
+            // arr[m][n] = input7Matrix[r];
+          }
+        }
+      }
+    }
+  }
+  return j;
+}
+*/
 #endif /* MONGOL_H */
