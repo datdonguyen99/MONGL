@@ -32,24 +32,26 @@ bool insertAt(SLinkedList &list, Soldier element, int pos) {
   // Insert element into a pos in the SLL
   // Return true if insert successfully, false otherwise
   // TODO
-  SoldierNode *head = list.head;
-  SoldierNode *newSoNode = new SoldierNode(element, NULL);
-  if (head == NULL) {
+  SoldierNode *newSoNode = new SoldierNode(element, nullptr);
+  if (list.head == nullptr) {
     if (pos == 0) {
-      head = newSoNode;
+      list.head = newSoNode;
       list.size++;
       return true;
     }
     return false;
   } else {
+    if (pos >= list.size || pos < 0) {
+      return false;
+    }
     if (pos == 0) {
-      newSoNode->next = head;
-      head = newSoNode;
+      newSoNode->next = list.head;
+      list.head = newSoNode;
       list.size++;
       return true;
     }
-    SoldierNode *curr = head;
-    SoldierNode *prev = NULL;
+    SoldierNode *curr = list.head;
+    SoldierNode *prev = nullptr;
     int i = 0;
     while (i < pos) {
       prev = curr;
@@ -72,20 +74,22 @@ bool removeAt(SLinkedList &list, int idx) {
   // Remove element at index idx in the SLL
   // Return true if remove successfully, false otherwise
   // TODO
-  SoldierNode *head = list.head;
-  SoldierNode *curr = head;
-  SoldierNode *prev = nullptr;
-  int i = 0;
-
-  if (idx == 0) {
-    head = head->next;
-    delete curr;
+  if (list.head == nullptr) {
+    return false;
+  }
+  if (idx < 0 || idx >= list.size) {
+    return false;
+  } else if (idx == 0) {
+    list.head = list.head->next;
     list.size--;
     return true;
   } else {
+    SoldierNode *curr = list.head;
+    SoldierNode *prev = nullptr;
+    int i = 0;
+
     while (curr != nullptr) {
       if (curr->next == nullptr) {
-        prev = curr;
         delete curr;
         prev->next = nullptr;
         list.size--;
@@ -101,61 +105,46 @@ bool removeAt(SLinkedList &list, int idx) {
       i++;
     }
   }
-  return false;
 }
 
 bool removeFirstItemWithHP(SLinkedList &list, int HP) {
   // Remove the first element with HP equals to HP
   // Return true if remove successfully, false otherwise
   // TODO
-  SoldierNode *head = list.head;
-  SoldierNode *curr = head;
-  SoldierNode *prev = nullptr;
-  if (curr != nullptr) {
-    while (curr != nullptr) {
-      if (curr->data.HP == HP) {
-        if (prev == nullptr) {
-          head = curr->next;
-          delete curr;
-          list.size--;
-          return true;
-        } else if (curr->next == nullptr) {
-          delete curr;
-          prev->next = nullptr;
-          list.size--;
-          return true;
-        } else {
-          prev->next = curr->next;
-          delete curr;
-          list.size--;
-          return true;
-        }
-        break;
-      }
-      prev = curr;
-      curr = curr->next;
-    }
-    // delete curr;
-    delete prev;
+  // SoldierNode *head = list.head;
+
+  if (list.head == nullptr) {
+    return false;
   }
+  SoldierNode *curr = list.head;
+  SoldierNode *prev = nullptr;
+
+  while (curr != nullptr) {
+    if (curr->data.HP == HP) {
+      if (prev == nullptr) {
+        list.head = curr->next;
+        delete curr;
+        list.size--;
+        return true;
+      } else if (curr->next == nullptr) {
+        delete curr;
+        prev->next = nullptr;
+        list.size--;
+        return true;
+      } else {
+        prev->next = curr->next;
+        delete curr;
+        list.size--;
+        return true;
+      }
+    }
+    prev = curr;
+    curr = curr->next;
+  }
+  delete curr;
+  delete prev;
   return false;
 }
-
-// int indexOf(SLinkedList &list, Soldier soldier) {
-//   // Find index of soldier (start from 0)
-//   // Return -1 if the soldier does not exist
-//   // TODO
-//   int i = 0;
-//   SoldierNode *head = list.head;
-//   for (SoldierNode *curr = head; curr != nullptr; curr = curr->next) {
-//     if (getIDAt(list, i) == soldier.ID && getHPAt(list, i) == soldier.HP &&
-//         getisSpecialAt(list, i) == soldier.isSpecial) {
-//           return i;
-//     }
-//     i++;
-//   }
-//   return -1;
-// }
 
 int size(SLinkedList &list) {
   // Return size of the list
@@ -176,15 +165,14 @@ bool empty(SLinkedList &list) {
 void clear(SLinkedList &list) {
   // Delete all of the elements in list
   // TODO
-  SoldierNode *head = list.head;
-  SoldierNode *curr = head;
+  SoldierNode *curr = list.head;
   SoldierNode *temp = nullptr;
   while (curr != nullptr) {
     temp = curr->next;
     delete curr;
     curr = temp;
   }
-  head = nullptr;
+  list.head = nullptr;
   list.size = 0;
 }
 
@@ -237,15 +225,6 @@ bool setHPAt(SLinkedList &list, int HP, int pos) {
   }
   return false;
 }
-
-// bool contains(SLinkedList &list, Soldier soldier) {
-//   // Check if array contains soldier
-//   // TODO
-//   if(indexOf(list, soldier) != -1){
-//     return true;
-//   }
-//   return false;
-// }
 
 // You can write your own functions here
 int getisSpecialAt(SLinkedList &list, int pos) {

@@ -24,19 +24,47 @@ void print(Array &array) {
   for (int i = 0; i < array.size; i++) {
     std::cout << array.arr[i].ID << " ";
   }
-  std::cout << "]";
+  std::cout << "]" << endl;
 }
 
 void initArray(Array &array, int cap) {
   // Init a new array with capacity equals to cap
   // TODO
+  array.arr = new Soldier[cap];
+  array.capacity = cap;
+}
+
+void ensureCapacity(Array &array, int newCap) {
+  // Extend the capacity of the array
+  // TODO
+  array.capacity = newCap;
+  Soldier *temp = new Soldier[newCap];
+  for (int i = 0; i < array.size; i++) {
+    temp[i] = array.arr[i];
+  }
+  delete[] array.arr;
+  array.arr = temp;
 }
 
 bool insertAt(Array &array, Soldier element, int pos) {
   // Insert element into a pos in the array
   // Return true if insert successfully, false otherwise
   // TODO
+  if (pos >= 0 && pos <= array.size) {
 
+    if (pos >= array.capacity || array.capacity == array.size) {
+      int multiplicand = (pos >= array.capacity) ? pos : array.size;
+      ensureCapacity(array, multiplicand * 1.5);
+    }
+
+    for (int i = array.size; i > pos; i--) {
+      array.arr[i] = array.arr[i - 1];
+    }
+
+    array.arr[pos] = element;
+    array.size++;
+    return true;
+  }
   return false;
 }
 
@@ -56,10 +84,10 @@ bool removeFirstItemWithHP(Array &array, int HP) {
   return false;
 }
 
-void ensureCapacity(Array &array, int newCap) {
-  // Extend the capacity of the array
-  // TODO
-}
+// void ensureCapacity(Array &array, int newCap) {
+//   // Extend the capacity of the array
+//   // TODO
+// }
 
 int indexOf(Array &array, Soldier soldier) {
   // Find index of soldier (start from 0)
@@ -72,32 +100,46 @@ int indexOf(Array &array, Soldier soldier) {
 int size(Array &array) {
   // Return size of the array
   // TODO
-
-  return -1;
+  return array.size;
+  // return -1;
 }
 
 bool empty(Array &array) {
   // Check whether the array is empty
   // TODO
-
+  if (size(array) == 0) {
+    return true;
+  }
   return false;
 }
 
 string getIDAt(Array &array, int pos) {
   // Get ID of the Soldier at pos
   // TODO
-
-  return "";
+  if (pos >= 0 && pos < size(array)) {
+    for (int i = 0; i < size(array); i++) {
+      if (pos == i) {
+        return array.arr[i].ID;
+      }
+    }
+  }
+  return "-1";
 }
 
 int getHPAt(Array &array, int pos) {
   // Get HP of the Soldier at pos
   // TODO
-
+  if (pos >= 0 && pos < size(array)) {
+    for (int i = 0; i < size(array); i++) {
+      if (pos == i) {
+        return array.arr[i].HP;
+      }
+    }
+  }
   return -1;
 }
 
-bool setHPAt(Array &list, int HP, int pos) {
+bool setHPAt(Array &array, int HP, int pos) {
   // Set value of HP at pos
   // TODO
   // Return true if set successfully, false otherwise
@@ -108,6 +150,8 @@ bool setHPAt(Array &list, int HP, int pos) {
 void clear(Array &array) {
   // Delete all of the elements in array
   // TODO
+  delete array.arr;
+  array.size = 0;
 }
 
 bool contains(Array &array, Soldier soldier) {
