@@ -41,7 +41,7 @@ bool insertAt(SLinkedList &list, Soldier element, int pos) {
     }
     return false;
   } else {
-    if (pos >= list.size || pos < 0) {
+    if (pos > list.size || pos < 0) {
       return false;
     }
     if (pos == 0) {
@@ -58,7 +58,7 @@ bool insertAt(SLinkedList &list, Soldier element, int pos) {
       curr = curr->next;
       i++;
     }
-    if (pos == list.size) {
+    if (pos == list.size - 1) {
       curr->next = newSoNode;
     } else {
       newSoNode->next = curr;

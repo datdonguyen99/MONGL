@@ -11,6 +11,7 @@
 #define ArrayDataController_h
 
 #include "dataStructure.h"
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -52,7 +53,7 @@ bool insertAt(Array &array, Soldier element, int pos) {
   // TODO
   if (pos >= 0 && pos <= array.size) {
 
-    if (pos >= array.capacity || array.capacity == array.size) {
+    if (array.capacity == array.size) {
       int multiplicand = (pos >= array.capacity) ? pos : array.size;
       ensureCapacity(array, multiplicand * 1.5);
     }
@@ -72,7 +73,16 @@ bool removeAt(Array &array, int idx) {
   // Remove element at index idx in the array
   // Return true if remove successfully, false otherwise
   // TODO
-
+  if (array.size == 0) {
+    return false;
+  }
+  if (idx >= 0 && idx < array.size) {
+    for (int i = idx; i < array.size - 1; i++) {
+      array.arr[i] = array.arr[i + 1];
+    }
+    array.size--;
+    return true;
+  }
   return false;
 }
 
@@ -80,7 +90,15 @@ bool removeFirstItemWithHP(Array &array, int HP) {
   // Remove the first element with HP equals to HP
   // Return true if remove successfully, false otherwise
   // TODO
-
+  for (int i = 0; i < array.size; i++) {
+    if (array.arr[i].HP == HP) {
+      for (int j = i; j < array.size - 1; j++) {
+        array.arr[j] = array.arr[j + 1];
+      }
+      array.size--;
+      return true;
+    }
+  }
   return false;
 }
 
@@ -89,13 +107,13 @@ bool removeFirstItemWithHP(Array &array, int HP) {
 //   // TODO
 // }
 
-int indexOf(Array &array, Soldier soldier) {
-  // Find index of soldier (start from 0)
-  // Return -1 if the soldier does not exist
-  // TODO
+// int indexOf(Array &array, Soldier soldier) {
+//   // Find index of soldier (start from 0)
+//   // Return -1 if the soldier does not exist
+//   // TODO
 
-  return -2;
-}
+//   return -2;
+// }
 
 int size(Array &array) {
   // Return size of the array
@@ -116,12 +134,11 @@ bool empty(Array &array) {
 string getIDAt(Array &array, int pos) {
   // Get ID of the Soldier at pos
   // TODO
+  if (empty(array)) {
+    return "-1";
+  }
   if (pos >= 0 && pos < size(array)) {
-    for (int i = 0; i < size(array); i++) {
-      if (pos == i) {
-        return array.arr[i].ID;
-      }
-    }
+    return array.arr[pos].ID;
   }
   return "-1";
 }
@@ -129,12 +146,23 @@ string getIDAt(Array &array, int pos) {
 int getHPAt(Array &array, int pos) {
   // Get HP of the Soldier at pos
   // TODO
+  if (empty(array)) {
+    return -1;
+  }
   if (pos >= 0 && pos < size(array)) {
-    for (int i = 0; i < size(array); i++) {
-      if (pos == i) {
-        return array.arr[i].HP;
-      }
-    }
+    return array.arr[pos].HP;
+  }
+  return -1;
+}
+
+int getisSpecialAt(Array &array, int pos) {
+  // Get HP of the Soldier at pos
+  // TODO
+  if (empty(array)) {
+    return -1;
+  }
+  if (pos >= 0 && pos < size(array)) {
+    return array.arr[pos].isSpecial;
   }
   return -1;
 }
@@ -143,7 +171,13 @@ bool setHPAt(Array &array, int HP, int pos) {
   // Set value of HP at pos
   // TODO
   // Return true if set successfully, false otherwise
-
+  if (empty(array)) {
+    return false;
+  }
+  if (pos >= 0 && pos < size(array)) {
+    array.arr[pos].HP = HP;
+    return true;
+  }
   return false;
 }
 
@@ -154,10 +188,25 @@ void clear(Array &array) {
   array.size = 0;
 }
 
+int indexOf(Array &array, Soldier soldier) {
+  // Find index of soldier (start from 0)
+  // Return -1 if the soldier does not exist
+  // TODO
+  for (int i = 0; i < array.size; i++) {
+    if (getIDAt(array, i) == soldier.ID && getHPAt(array, i) == soldier.HP &&
+        getisSpecialAt(array, i) == soldier.isSpecial) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 bool contains(Array &array, Soldier soldier) {
   // Check if array contains soldier
   // TODO
-
+  if (indexOf(array, soldier) != -1) {
+    return true;
+  }
   return false;
 }
 

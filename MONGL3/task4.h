@@ -7,6 +7,7 @@
 
 #ifndef task4_h
 #define task4_h
+
 #include "SLLDataController.h"
 #include "thirdBattle.h"
 #include <fstream>
@@ -42,7 +43,8 @@ void solveTask4(string filename) {
 
     task4--;
   }
-
+  print(list1);
+  print(list2);
   SLinkedList res = merge(list1, list2);
   print(res);
 }

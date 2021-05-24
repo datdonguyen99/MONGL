@@ -32,7 +32,7 @@ void solveTask3(string filename) {
 
     task3--;
   }
-
+  // print(list);
   reverse(list);
   print(list);
 }

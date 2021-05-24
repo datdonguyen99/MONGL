@@ -39,6 +39,8 @@ void solveTask1(string filename) {
         cout << "ID: " << top(array).ID << "\nHP: " << top(array).HP
              << "\nisSpecial:" << top(array).isSpecial << endl;
       }
+    } else {
+      cout << "INVALID INPUT" << endl;
     }
     task1--;
   }

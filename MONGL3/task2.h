@@ -39,6 +39,8 @@ void solveTask2(string filename) {
         cout << "ID: " << front(list).ID << "\nHP: " << front(list).HP
              << "\nisSpecial:" << front(list).isSpecial << endl;
       }
+    } else {
+      cout << "INVALID INPUT" << endl;
     }
     task2--;
   }
