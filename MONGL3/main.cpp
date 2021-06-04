@@ -27,7 +27,7 @@ int main(int argc, const char *argv[]) {
 
   cout << "TASK 0:" << endl;
   solveTask0(testcase0);
-
+  
   cout << "TASK 1:" << endl;
   solveTask1(testcase1);
 

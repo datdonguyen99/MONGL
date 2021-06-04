@@ -23,9 +23,8 @@
 bool push(Array &array, Soldier soldier) {
   // Return true if push successfully, false otherwise
   // TODO
-  // insertAt(Array &array, Soldier element, int pos)
-  if (empty(array)) {
-    initArray(array, 2); // INIT SIZE OF DYNAMIC ARR RANDOMLY
+  if (array.capacity == 0) {
+    initArray(array, 100);
   }
   if (insertAt(array, soldier, 0)) {
     return true;
@@ -57,16 +56,16 @@ Soldier top(Array &array) {
 bool enqueue(SLinkedList &list, Soldier soldier) {
   // Return true if enqueue successfully, false otherwise
   // TODO
-  if (insertAt(list, soldier, 0)) {
+  if (insertAt(list, soldier, size(list))) {
     return true;
-  };
+  }
   return false;
 }
 
 bool dequeue(SLinkedList &list) {
   // Return true if dequeue successfully, false otherwise
   // TODO
-  if (removeAt(list, size(list) - 1)) {
+  if (removeAt(list, 0)) {
     return true;
   }
   return false;
@@ -75,12 +74,7 @@ bool dequeue(SLinkedList &list) {
 Soldier front(SLinkedList &list) {
   // TODO
   if (!empty(list)) {
-    SoldierNode *curr = list.head;
-    for (;; curr = curr->next) {
-      if (curr->next == nullptr)
-        break;
-    };
-    return curr->data;
+    return list.head->data;
   }
   return Soldier(); // Return this if cannot get front
 }
@@ -124,7 +118,7 @@ SoldierNode *mergeSortHelper(SoldierNode *&head1, SoldierNode *&head2) {
   if (head1->data.HP < head2->data.HP) {
     resul = head1;
     resul->next = mergeSortHelper(head1->next, head2);
-  } else if (head1->data.HP >= head2->data.HP) {
+  } else if (head1->data.HP > head2->data.HP) {
     resul = head2;
     resul->next = mergeSortHelper(head1, head2->next);
   } else {
@@ -185,11 +179,11 @@ void MergeSort(SoldierNode **thead) {
 SLinkedList merge(SLinkedList &list1, SLinkedList &list2) {
   // TODO
   SoldierNode *temp = list1.head;
-  while (temp->next != nullptr) {
-    temp = temp->next;
+  while (list1.head->next != nullptr) {
+    list1.head = list1.head->next;
   }
-  temp->next = list2.head;
-
+  list1.head->next = list2.head;
+  list1.head = temp;
   if (list1.head != nullptr) {
     SoldierNode **thead = &list1.head;
     MergeSort(*&thead);

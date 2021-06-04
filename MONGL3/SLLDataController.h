@@ -32,10 +32,10 @@ bool insertAt(SLinkedList &list, Soldier element, int pos) {
   // Insert element into a pos in the SLL
   // Return true if insert successfully, false otherwise
   // TODO
-  SoldierNode *newSoNode = new SoldierNode(element, nullptr);
+
   if (list.head == nullptr) {
     if (pos == 0) {
-      list.head = newSoNode;
+      list.head = new SoldierNode(element, nullptr);
       list.size++;
       return true;
     }
@@ -44,6 +44,7 @@ bool insertAt(SLinkedList &list, Soldier element, int pos) {
     if (pos > list.size || pos < 0) {
       return false;
     }
+    SoldierNode *newSoNode = new SoldierNode(element, nullptr);
     if (pos == 0) {
       newSoNode->next = list.head;
       list.head = newSoNode;
@@ -58,12 +59,8 @@ bool insertAt(SLinkedList &list, Soldier element, int pos) {
       curr = curr->next;
       i++;
     }
-    if (pos == list.size - 1) {
-      curr->next = newSoNode;
-    } else {
-      newSoNode->next = curr;
-      prev->next = newSoNode;
-    }
+    newSoNode->next = curr;
+    prev->next = newSoNode;
     list.size++;
     return true;
   }
@@ -80,7 +77,9 @@ bool removeAt(SLinkedList &list, int idx) {
   if (idx < 0 || idx >= list.size) {
     return false;
   } else if (idx == 0) {
+    SoldierNode *tem = list.head;
     list.head = list.head->next;
+    delete tem;
     list.size--;
     return true;
   } else {
@@ -89,12 +88,7 @@ bool removeAt(SLinkedList &list, int idx) {
     int i = 0;
 
     while (curr != nullptr) {
-      if (curr->next == nullptr) {
-        delete curr;
-        prev->next = nullptr;
-        list.size--;
-        return true;
-      } else if (i == idx) {
+      if (i == idx) {
         prev->next = curr->next;
         delete curr;
         list.size--;
@@ -105,13 +99,13 @@ bool removeAt(SLinkedList &list, int idx) {
       i++;
     }
   }
+  return false;
 }
 
 bool removeFirstItemWithHP(SLinkedList &list, int HP) {
   // Remove the first element with HP equals to HP
   // Return true if remove successfully, false otherwise
   // TODO
-  // SoldierNode *head = list.head;
 
   if (list.head == nullptr) {
     return false;
@@ -126,11 +120,6 @@ bool removeFirstItemWithHP(SLinkedList &list, int HP) {
         delete curr;
         list.size--;
         return true;
-      } else if (curr->next == nullptr) {
-        delete curr;
-        prev->next = nullptr;
-        list.size--;
-        return true;
       } else {
         prev->next = curr->next;
         delete curr;
@@ -141,8 +130,6 @@ bool removeFirstItemWithHP(SLinkedList &list, int HP) {
     prev = curr;
     curr = curr->next;
   }
-  delete curr;
-  delete prev;
   return false;
 }
 
@@ -165,10 +152,13 @@ bool empty(SLinkedList &list) {
 void clear(SLinkedList &list) {
   // Delete all of the elements in list
   // TODO
+  if (list.head == nullptr) {
+    return;
+  }
   SoldierNode *curr = list.head;
-  SoldierNode *temp = nullptr;
+  // SoldierNode *temp = nullptr;
   while (curr != nullptr) {
-    temp = curr->next;
+    SoldierNode *temp = curr->next;
     delete curr;
     curr = temp;
   }
