@@ -31,7 +31,6 @@ void print(Array &array) {
 void initArray(Array &array, int cap) {
   // Init a new array with capacity equals to cap
   // TODO
-
   array.arr = new Soldier[cap];
   array.capacity = cap;
   array.size = 0;
@@ -78,10 +77,6 @@ bool removeAt(Array &array, int idx) {
   // Remove element at index idx in the array
   // Return true if remove successfully, false otherwise
   // TODO
-  if (array.arr == nullptr) {
-    return false;
-  }
-
   if (idx >= 0 && idx < array.size) {
     for (int i = idx; i < array.size - 1; i++) {
       array.arr[i] = array.arr[i + 1];
@@ -96,9 +91,6 @@ bool removeFirstItemWithHP(Array &array, int HP) {
   // Remove the first element with HP equals to HP
   // Return true if remove successfully, false otherwise
   // TODO
-  if (array.arr == nullptr) {
-    return false;
-  }
   for (int i = 0; i < array.size; i++) {
     if (array.arr[i].HP == HP) {
       for (int j = i; j < array.size - 1; j++) {
@@ -134,9 +126,6 @@ int size(Array &array) {
 bool empty(Array &array) {
   // Check whether the array is empty
   // TODO
-  if (array.arr == nullptr) {
-    return false;
-  }
   if (size(array) == 0) {
     return true;
   }
@@ -146,9 +135,6 @@ bool empty(Array &array) {
 string getIDAt(Array &array, int pos) {
   // Get ID of the Soldier at pos
   // TODO
-  if (array.arr == nullptr) {
-    return "-1";
-  }
   if (empty(array)) {
     return "-1";
   }
@@ -161,9 +147,6 @@ string getIDAt(Array &array, int pos) {
 int getHPAt(Array &array, int pos) {
   // Get HP of the Soldier at pos
   // TODO
-  if (array.arr == nullptr) {
-    return -1;
-  }
   if (empty(array)) {
     return -1;
   }
@@ -177,9 +160,6 @@ int getisSpecialAt(Array &array, int pos) {
   // Get HP of the Soldier at pos
   // TODO
 
-  if (array.arr == nullptr) {
-    return -1;
-  }
   if (empty(array)) {
     return -1;
   }
@@ -193,9 +173,6 @@ bool setHPAt(Array &array, int HP, int pos) {
   // Set value of HP at pos
   // TODO
   // Return true if set successfully, false otherwise
-  if (array.arr == nullptr) {
-    return -1;
-  }
   if (empty(array)) {
     return false;
   }
@@ -209,37 +186,16 @@ bool setHPAt(Array &array, int HP, int pos) {
 void clear(Array &array) {
   // Delete all of the elements in array
   // TODO
-  if (array.arr == nullptr) {
-    return;
-  }
-  // delete[] array.arr;
-  // array.arr = nullptr;
-  if (size(array) > 0) {
-    /*int i = 1;
-    while (i < size(array)) {
-      for (int j = 0; j < size(array) - 1; j++) {
-        array.arr[i] = array.arr[i + 1];
-      }
-      array.size--;
-      i++;
-    }*/
-    while (array.size > 0) {
-      // delete array.arr;
-      removeAt(array, 0);
-    }
-    delete[] array.arr;
-  }
-  // array.size = 0;
+  array.size = 0;
   array.capacity = 0;
+  delete[] array.arr;
+  array.arr = NULL;
 }
 
 int indexOf(Array &array, Soldier soldier) {
   // Find index of soldier (start from 0)
   // Return -1 if the soldier does not exist
   // TODO
-  if (array.arr == nullptr) {
-    return -1;
-  }
   for (int i = 0; i < array.size; i++) {
     if (getIDAt(array, i) == soldier.ID && getHPAt(array, i) == soldier.HP &&
         getisSpecialAt(array, i) == soldier.isSpecial) {
@@ -252,9 +208,6 @@ int indexOf(Array &array, Soldier soldier) {
 bool contains(Array &array, Soldier soldier) {
   // Check if array contains soldier
   // TODO
-  if (array.arr == nullptr) {
-    return false;
-  }
   if (indexOf(array, soldier) != -1) {
     return true;
   }

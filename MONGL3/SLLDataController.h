@@ -156,7 +156,6 @@ void clear(SLinkedList &list) {
     return;
   }
   SoldierNode *curr = list.head;
-  // SoldierNode *temp = nullptr;
   while (curr != nullptr) {
     SoldierNode *temp = curr->next;
     delete curr;
