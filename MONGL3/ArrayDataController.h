@@ -52,8 +52,11 @@ bool insertAt(Array &array, Soldier element, int pos) {
   // Insert element into a pos in the array
   // Return true if insert successfully, false otherwise
   // TODO
-  if (array.capacity == 0) {
+  if (array.arr == nullptr) {
     return false;
+  }
+  if (array.capacity == 0) {
+    ensureCapacity(array, 5);
   }
 
   if (pos >= 0 && pos <= array.size) {
@@ -189,7 +192,7 @@ void clear(Array &array) {
   array.size = 0;
   array.capacity = 0;
   delete[] array.arr;
-  array.arr = NULL;
+  array.arr = nullptr;
 }
 
 int indexOf(Array &array, Soldier soldier) {
